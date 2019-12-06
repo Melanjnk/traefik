@@ -1,0 +1,19 @@
+version: '3'
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      - ./.docker/conf/nginx/sites-available/api.localhost.conf:/etc/nginx/conf.d/api.localhost.conf
+      - .:/var/www/html
+    networks:
+      - api_net
+      - web
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.whoami.rule=Host(`shop.api.localhost`)"
+
+networks:
+  api_net:
+    external: false
+  web:
+    external: true
